@@ -44,7 +44,13 @@ public class Telegramm implements Serializable {
 		
 	}
 	
-	public Object getDataObject(){
+	public ProductionStep getDataStep(){
+		
+		return null;
+		
+	}
+	
+	public ProductionOrder getDataOrder(){
 		
 		return null;
 		
