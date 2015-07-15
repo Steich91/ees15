@@ -9,7 +9,7 @@ import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 import de.ees.group1.model.Ack_Telegram;
-import de.ees.group1.model.Order_Telegram;
+import de.ees.group1.model.Finished_Telegram;
 import de.ees.group1.model.ProductionStep;
 import de.ees.group1.model.State_Telegram;
 import de.ees.group1.model.Step_Telegram;
@@ -155,6 +155,8 @@ public class BT_device /*implements DiscoveryListener*/ {
 		}
 		case 3:
 			return new State_Telegram(data[0], data[1], data[2]);
+		case 4:
+			return new Finished_Telegram(data[0], data[1], data[2]);
 		default:
 		}
 		

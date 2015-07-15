@@ -12,7 +12,7 @@ public class Step_Telegram extends Telegramm {
 	}
 	
 	@Override
-	public ProductionStep getDataObject(){
+	public ProductionStep getDataStep(){
 		
 		return data;
 		

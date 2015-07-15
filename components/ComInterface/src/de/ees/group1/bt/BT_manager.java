@@ -95,12 +95,12 @@ public class BT_manager implements IComProvider{
 					this.controlStation.giveAcknowledgement(tele.getDataBool());
 					break;
 				}
-				case 2: {
-					this.controlStation.reachedParkingPositionInd(tele.getDataInt());
-					break;
-				}
 				case 3: {
 					this.controlStation.transmitActualState(tele.getDataInt());
+					break;
+				}
+				case 4: {
+					this.controlStation.reachedParkingPositionInd(tele.getDataInt());
 					break;
 				}
 				default: {
