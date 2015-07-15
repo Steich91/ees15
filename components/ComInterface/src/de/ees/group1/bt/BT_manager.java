@@ -88,6 +88,42 @@ public class BT_manager implements IComProvider{
 		
 		try{
 			Telegramm tele = this.localDev.receiveMessage();
+			int type = tele.getType();
+			if(tele.getDestination() == 0){
+				switch(type){
+				case 0: {
+					this.controlStation.giveAcknowledgement(tele.getDataBool());
+					break;
+				}
+				case 3: {
+					this.controlStation.transmitActualState(tele.getDataInt());
+					break;
+				}
+				case 4: {
+					this.controlStation.reachedParkingPositionInd(tele.getDataInt());
+					break;
+				}
+				default: {
+					System.out.println("Falsch addressiertes Telegramm: ");
+					System.out.println(tele.transform());
+				}
+				}
+			}else{
+				switch(type){
+				case 0: {
+					this.workStation.get(tele.getDestination()-1).giveAcknowledgement(tele.getDataBool());
+					break;
+				}
+				case 2: {
+					this.workStation.get(tele.getDestination()-1).giveCurrentStep(tele.getDataStep());
+					break;
+				}
+				default: {
+					System.out.println("Falsch addressiertes Telegramm: ");
+					System.out.println(tele.transform());
+					}
+				}
+			}
 		}catch(IOException e){
 			System.out.println(e.getMessage());
 		}
