@@ -25,13 +25,20 @@ public class Order_Telegram extends Telegramm{
 		
 		message = ""+this.getDestination()+""+this.getSource()+""+this.getType();
 		
-		message = message + data.getId();
+		message = message + data.getId() + this.data.size();
 		
 		for(int i = 0; i< this.data.size(); i++){
 			
 			ProductionStep step = this.data.get(i);
 			
-			message = message + i + step.getType() + step.getWorkTimeSeconds() + step.getMinQualityLevel();
+			message = message + i;
+			switch(step.getType()){
+			case NONE: message = message + 0;
+			case LATHE: message = message + 1;
+			case DRILL: message = message + 2;
+			default: 
+			}
+			message = message + step.getWorkTimeSeconds() + step.getMinQualityLevel();
 			message = message + "|";
 			
 		}
