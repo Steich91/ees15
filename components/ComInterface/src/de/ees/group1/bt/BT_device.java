@@ -116,11 +116,6 @@ public class BT_device /*implements DiscoveryListener*/ {
 			
 		}
 		
-		System.out.println(data[0]);
-		System.out.println(data[1]);
-		System.out.println(data[2]);
-		System.out.println(data[3]);
-		
 		type = data[3]-48;
 		
 		switch(type){
@@ -185,15 +180,12 @@ public class BT_device /*implements DiscoveryListener*/ {
 		String transformed = message.transform();
 		System.out.println(transformed);
 		length = transformed.length();
-		System.out.println(""+length);
 		for(int i = 0; i<2; ++i){
 			int shift = i << 3;
 			length_data[1-i] = (byte)((length & (0xff << shift))>>shift);
 		}
 		
 		byte[] data = message.concat(length_data, message.concat(transformed.getBytes(), length_data));
-		System.out.println(data.toString());
-		System.out.println(new String(data));
 		
 		try{
 			

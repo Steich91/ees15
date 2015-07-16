@@ -69,9 +69,9 @@ public class Test_Main {
 			man.transmitProductionOrder(order);
 			System.out.println("Erwarte Acknowledgement...");
 			man.getMessage();
-			System.out.println("Warte auf Stationseinfahrt...");
-			man.getMessage();
-			while(!cs.getFinished()){
+			while(!cs.getFinished() && fortfahren){
+				System.out.println("Warte auf Stationseinfahrt...");
+				man.getMessage();
 				System.out.println("Ist die Arbeitsstation geeignet?");
 				eingabe = "";
 				try {
@@ -80,16 +80,22 @@ public class Test_Main {
 					e.printStackTrace();
 				}
 				if(eingabe.equals("j")){
+					System.out.println("Übertrage Ja...");
 					man.transmitYes();
+					System.out.println("Erwarte Status...");
 					man.getMessage();
+					System.out.println("Erwarte Einfahrt...");
 					man.getMessage();
 					System.out.println("Bearbeite...");
 					man.transmitFinishedStep(true);
+				}else if(eingabe.equals("z")){
+					fortfahren = false;
 				}else{
+					System.out.println("Übertrage Nein...");
 					man.transmitNo();
 				}
 			}
-			System.out.println("Nestart?");
+			System.out.println("Neustart?");
 			try {
 				eingabe = reader.readLine();
 			} catch (IOException e) {
@@ -97,6 +103,9 @@ public class Test_Main {
 			}
 			if(!eingabe.equals("j")){
 				another_round = false;
+			}else{
+				man.disconnect();
+				fortfahren = true;
 			}
 			
 		}
