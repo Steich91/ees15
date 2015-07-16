@@ -116,14 +116,14 @@ public class BT_device /*implements DiscoveryListener*/ {
 			
 		}
 		
-		type = data[2];
+		type = data[3];
 		
 		switch(type){
 		case 0: {
-			if(data[3]== 0){
-				return new Ack_Telegram(data[0], data[1], false);
+			if(data[4]== 0){
+				return new Ack_Telegram(data[0], data[1]*10+data[2], false);
 			}else{
-				return new Ack_Telegram(data[0], data[1], true);
+				return new Ack_Telegram(data[0], data[1]*10+data[2], true);
 			}
 		}
 		case 1: {
@@ -132,9 +132,9 @@ public class BT_device /*implements DiscoveryListener*/ {
 		}
 		case 2: {
 			ProductionStep prodStep = new ProductionStep();
-			prodStep.setMinQualityLevel(data[5]);
-			prodStep.setWorkTimeSeconds(data[4]);
-			switch(data[3]){
+			prodStep.setMinQualityLevel(data[6]);
+			prodStep.setWorkTimeSeconds(data[5]);
+			switch(data[4]){
 			case 0:	{
 				prodStep.setType(WorkstationType.NONE);
 				break;
@@ -151,12 +151,12 @@ public class BT_device /*implements DiscoveryListener*/ {
 				prodStep.setType(WorkstationType.NONE);
 			}
 			}
-			return new Step_Telegram(data[0], data[1], prodStep);
+			return new Step_Telegram(data[0], data[1]*10+data[2], prodStep);
 		}
 		case 3:
-			return new State_Telegram(data[0], data[1], data[2]);
+			return new State_Telegram(data[0], data[1]*10+data[2], data[3]);
 		case 4:
-			return new Finished_Telegram(data[0], data[1], data[2]);
+			return new Finished_Telegram(data[0], data[1]*10+data[2], data[3]);
 		default:
 		}
 		
