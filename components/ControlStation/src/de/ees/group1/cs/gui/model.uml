@@ -18,35 +18,41 @@
     <ownedOperation xmi:type="uml:Operation" xmi:id="_9ZH0ECbZEeWNje40cQ1bYA" name="workstationTypeUpdated"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="__VKqACbZEeWNje40cQ1bYA" name="workstationQualityUpdated"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_Ry1KECbYEeWNje40cQ1bYA" name="MainWindow">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_pz5rgCbaEeWNje40cQ1bYA" name="listedorderpanel" type="_gV7VMCbaEeWNje40cQ1bYA" aggregation="shared" association="_pz2oMCbaEeWNje40cQ1bYA">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xekRICbaEeWNje40cQ1bYA"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xemtYCbaEeWNje40cQ1bYA" value="*"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_p5VaoCiGEeWa7eEdPQ2gOQ" name="ActiveOrderPanel">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_k_VFICiOEeWa7eEdPQ2gOQ" name="setOrderStatus"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_53oqYCiGEeWa7eEdPQ2gOQ" name="WorkstationPanel">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_YJ0LQCiOEeWa7eEdPQ2gOQ" name="setStatus"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_zP72QCiJEeWa7eEdPQ2gOQ" name="ProductionOrderDialog">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_HafrECiKEeWa7eEdPQ2gOQ" name="productionsteppanel" type="_E-HvQCiKEeWa7eEdPQ2gOQ" aggregation="composite" association="_HadO0CiKEeWa7eEdPQ2gOQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_c32IACiLEeWa7eEdPQ2gOQ"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_c37AgCiLEeWa7eEdPQ2gOQ" value="*"/>
     </ownedAttribute>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_ULwJQCbYEeWNje40cQ1bYA" name="registerOrderController" concurrency="concurrent">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_klpI0CbYEeWNje40cQ1bYA" name="c" type="_rWgOECbXEeWNje40cQ1bYA"/>
-    </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_nRXIMCbYEeWNje40cQ1bYA" name="ergisterWorkstationController" visibility="public">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_q1jnsCbYEeWNje40cQ1bYA" name="c" type="_vKkVkCbXEeWNje40cQ1bYA"/>
-    </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_tCv4ACbYEeWNje40cQ1bYA" name="registerConnectionController">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_x9abMCbYEeWNje40cQ1bYA" name="c" type="_thjJUCbXEeWNje40cQ1bYA"/>
-    </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_YuVRsCbaEeWNje40cQ1bYA" name="updateOrderList"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_aJSMwCbaEeWNje40cQ1bYA" name="updateActiveOrder"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_b2ac8CbaEeWNje40cQ1bYA" name="updateWorkstationStatus"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_e3vtwCiMEeWa7eEdPQ2gOQ" name="isOrderValid"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_7SIu4CbYEeWNje40cQ1bYA" client="_Ry1KECbYEeWNje40cQ1bYA" supplier="_vKkVkCbXEeWNje40cQ1bYA"/>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_74mR8CbYEeWNje40cQ1bYA" client="_Ry1KECbYEeWNje40cQ1bYA" supplier="_thjJUCbXEeWNje40cQ1bYA"/>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_NOGvwCbaEeWNje40cQ1bYA" client="_Ry1KECbYEeWNje40cQ1bYA" supplier="_rWgOECbXEeWNje40cQ1bYA"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_gV7VMCbaEeWNje40cQ1bYA" name="ListedOrderPanel"/>
-  <packagedElement xmi:type="uml:Association" xmi:id="_pz2oMCbaEeWNje40cQ1bYA" visibility="public" memberEnd="_pz5rgCbaEeWNje40cQ1bYA _pz6SkCbaEeWNje40cQ1bYA">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pz4dYCbaEeWNje40cQ1bYA" source="org.eclipse.papyrus">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pz4dYSbaEeWNje40cQ1bYA" key="nature" value="UML_Nature"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_E-HvQCiKEeWa7eEdPQ2gOQ" name="ProductionStepPanel">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_tTPuACiMEeWa7eEdPQ2gOQ" name="save"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_umkXECiMEeWa7eEdPQ2gOQ" name="validateForm"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_v0mQcCiMEeWa7eEdPQ2gOQ" name="getProductionStep"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_HadO0CiKEeWa7eEdPQ2gOQ" memberEnd="_HafrECiKEeWa7eEdPQ2gOQ _Hag5MCiKEeWa7eEdPQ2gOQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Haec8CiKEeWa7eEdPQ2gOQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_HafEACiKEeWa7eEdPQ2gOQ" key="nature" value="UML_Nature"/>
     </eAnnotations>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_pz6SkCbaEeWNje40cQ1bYA" name="mainwindow" type="_Ry1KECbYEeWNje40cQ1bYA" association="_pz2oMCbaEeWNje40cQ1bYA">
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wOE5oCbaEeWNje40cQ1bYA" value="1"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wOJLECbaEeWNje40cQ1bYA" value="1"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_Hag5MCiKEeWa7eEdPQ2gOQ" name="productionorderdialog" type="_zP72QCiJEeWa7eEdPQ2gOQ" association="_HadO0CiKEeWa7eEdPQ2gOQ"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Component" xmi:id="_cCukQCiTEeWbibujRpaR1Q" name="View">
+    <packagedElement xmi:type="uml:Usage" xmi:id="_9l_NoCiVEeWbibujRpaR1Q" client="_cCukQCiTEeWbibujRpaR1Q" supplier="_rWgOECbXEeWNje40cQ1bYA"/>
+    <packagedElement xmi:type="uml:Usage" xmi:id="_caHzwCiXEeWbibujRpaR1Q" client="_cCukQCiTEeWbibujRpaR1Q" supplier="_vKkVkCbXEeWNje40cQ1bYA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Component" xmi:id="_4CCHwCiTEeWbibujRpaR1Q" name="Controller">
+    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_oTDbgCiVEeWbibujRpaR1Q" client="_4CCHwCiTEeWbibujRpaR1Q" supplier="_rWgOECbXEeWNje40cQ1bYA" contract="_rWgOECbXEeWNje40cQ1bYA"/>
+    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_KCulsCiXEeWbibujRpaR1Q" client="_4CCHwCiTEeWbibujRpaR1Q" supplier="_thjJUCbXEeWNje40cQ1bYA" contract="_thjJUCbXEeWNje40cQ1bYA"/>
+    <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_oha8wCiXEeWbibujRpaR1Q" client="_4CCHwCiTEeWbibujRpaR1Q" supplier="_vKkVkCbXEeWNje40cQ1bYA" contract="_vKkVkCbXEeWNje40cQ1bYA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_6eQLMCiWEeWbibujRpaR1Q" client="_cCukQCiTEeWbibujRpaR1Q" supplier="_thjJUCbXEeWNje40cQ1bYA"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_N2jcoCiXEeWbibujRpaR1Q" client="_rWgOECbXEeWNje40cQ1bYA" supplier="_rWgOECbXEeWNje40cQ1bYA"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_OjD9UCiXEeWbibujRpaR1Q" client="_thjJUCbXEeWNje40cQ1bYA" supplier="_thjJUCbXEeWNje40cQ1bYA"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_nKZfcCiXEeWbibujRpaR1Q" client="_vKkVkCbXEeWNje40cQ1bYA" supplier="_vKkVkCbXEeWNje40cQ1bYA"/>
 </uml:Model>
