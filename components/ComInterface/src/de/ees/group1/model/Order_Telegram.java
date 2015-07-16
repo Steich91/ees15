@@ -34,9 +34,12 @@ public class Order_Telegram extends Telegramm{
 			message = message + i;
 			switch(step.getType()){
 			case NONE: message = message + 0;
+						break;
 			case LATHE: message = message + 1;
+						break;
 			case DRILL: message = message + 2;
-			default: 
+						break;
+			default: message = message + 0;
 			}
 			message = message + step.getWorkTimeSeconds() + step.getMinQualityLevel();
 			message = message + "|";
