@@ -6,6 +6,16 @@ import de.ees.group1.model.ProductionOrder;
 
 public class ControlStation implements IOrderController, IControlStation {
 
+	public ControlStation(){
+		btManager=new BT_manager();
+		btManager.register(cs);
+		//Erzeugt die vier Arbeitsstationen
+		for (int i = 0; i < 4; i++) {
+			new WorkStation(btManager, i+1);
+		}
+		//Erzeugt OrderList
+		list=new OrderList();
+	}
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
 		// TODO Auto-generated method stub
