@@ -6,6 +6,14 @@ import de.ees.group1.model.ProductionOrder;
 
 public class ControlStation implements IOrderController, IControlStation {
 
+	private ProductionOrder currentOrder;
+	private ProductionStep currentStep;
+	private int currentStepNumber;
+	private OrderList list;
+	private int statusNXT;
+	private BT_manager btManager;
+	private IControlStation cs;
+	ß5
 	public ControlStation(){
 		btManager=new BT_manager();
 		btManager.register(cs);
