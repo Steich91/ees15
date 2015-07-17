@@ -93,6 +93,15 @@ public class ControlStation implements IOrderController, IControlStation {
 		}
 	}
 	
+	public void setCurrentStep(ProductionStep step) {
+		currentStep=step;		
+	}
+
+	
+	public ProductionStep getCurrentStep() {
+		return currentStep;
+	}
+	
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
 		// TODO Auto-generated method stub
