@@ -37,6 +37,12 @@ public class ControlStation implements IOrderController, IControlStation {
 		currentOrder=list.getFirstOrder();
 		currentStepNumber=0;
 	}
+	/*
+	 * Fügt der Liste mit den ProductionOrder einen neuen Auftrag zu.
+	 */
+	public void addProductionOrder(ProductionOrder order){
+		list.setProductionOrder(order);
+	}
 	
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
