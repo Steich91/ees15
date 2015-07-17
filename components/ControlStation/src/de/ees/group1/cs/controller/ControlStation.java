@@ -44,6 +44,10 @@ public class ControlStation implements IOrderController, IControlStation {
 		list.setProductionOrder(order);
 	}
 	
+	public int getStatusNXT(){
+		return statusNXT;
+	}
+	
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
 		// TODO Auto-generated method stub
