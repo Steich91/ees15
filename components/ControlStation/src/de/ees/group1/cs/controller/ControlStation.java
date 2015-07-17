@@ -48,6 +48,51 @@ public class ControlStation implements IOrderController, IControlStation {
 		return statusNXT;
 	}
 	
+	public void evaluateStatusNXT(){
+		int status=getStatusNXT();
+		if ((0<status) & (status<=22)){
+			switch (status){
+			case 1: case 5: case 9: case 13: case 17:
+				//setWorkStation(1);
+				break;
+			case 2: case 6: case 10: case 14: case 18:
+				//setWorkStation(2);
+				break;
+			case 3: case 7: case 11: case 15: case 19:
+				//setWorkStation(3);
+				break;
+			case 4: case 8: case 12: case 16: case 20:
+				//setWorkStation(4);
+				break;
+			case 21:
+				//neuen Auftrag anstoßen
+				break;
+			case 22:
+				//Meldung alles kaputt
+				break;
+			}
+		}
+		if ((0<status) & (status<=20)){
+			switch (status){
+			case 1: case 2: case 3: case 4: 
+				//action to "Einfahrt");
+				break;
+			case 5: case 6: case 7: case 8: 
+				//action to "Weiterfahrt";
+				break;
+			case 9: case 10: case 11: case 12: 
+				//arbeit beginnen;
+				break;
+			case 13: case 14: case 15: case 16: 
+				//Arbeit beendet;
+				break;
+			case 17: case 18: case 19: case 20: 
+				//arbeit konnte nicht durchgeführt werden;
+				break;
+			}
+		}
+	}
+	
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
 		// TODO Auto-generated method stub
