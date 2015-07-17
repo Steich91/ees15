@@ -149,10 +149,12 @@ public class ControlStation implements IOrderController, IControlStation {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+ 
 	public void reachedParkingPosistionInd(int nextWorkingStep) {
-		// TODO Auto-generated method stub
+		if ((nextWorkingStep==currentStepNumber)&(currentOrder.size()>=nextWorkingStep)){
+			currentOrder=list.getFirstOrder();
+			btManager.transmitProductionOrder(currentOrder);
+		}
 		
 	}
 
