@@ -54,4 +54,22 @@ public class ControlStation implements IOrderController, IControlStation {
 		
 	}
 
+	@Override
+	public void reachedParkingPosistionInd(int nextWorkingStep) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void giveAcknowledgement(boolean answer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void transmitActualState(int state) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
