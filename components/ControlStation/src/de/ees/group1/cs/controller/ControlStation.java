@@ -29,6 +29,15 @@ public class ControlStation implements IOrderController, IControlStation {
 		//Erzeugt OrderList
 		list=new OrderList();
 	}
+	
+	/*
+	 * übergibt den gerade an den NXT übermittleten Auftrag an die ControlStation
+	 */	
+	public void setCurrentOrder(){
+		currentOrder=list.getFirstOrder();
+		currentStepNumber=0;
+	}
+	
 	@Override
 	public void orderCreatedAction(ProductionOrder order) {
 		// TODO Auto-generated method stub
