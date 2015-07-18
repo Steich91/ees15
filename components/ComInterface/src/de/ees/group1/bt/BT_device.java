@@ -116,6 +116,8 @@ public class BT_device /*implements DiscoveryListener*/ {
 			
 		}
 		
+		System.out.println(new String(data));
+		
 		type = data[3]-48;
 		
 		switch(type){
