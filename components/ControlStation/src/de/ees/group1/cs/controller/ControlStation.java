@@ -150,32 +150,28 @@ public class ControlStation implements IOrderController, IControlStation {
 		mainWindow.updateOrderList(list);
 	}
 
-	@Override
+	
 	public void activeOrderCanceledAction() {
-		// TODO Auto-generated method stub
 		
 	}
  
-	public void reachedParkingPosistionInd(int nextWorkingStep) {
+
+	//Auftrag erfolgreich übertragen, keine Reaktion 
+	public void giveAcknowledgement(boolean answer) {
+		
+		
+	}
+
+	public void transmitActualState(int state) {
+		statusNXT=state;
+		evaluateStatusNXT();
+		
+	}
+
+	public void reachedParkingPositionInd(int nextWorkingStep) {
 		if ((nextWorkingStep==currentStepNumber)&(currentOrder.size()>=nextWorkingStep)){
 			currentOrder=list.getFirstOrder();
 			btManager.transmitProductionOrder(currentOrder);
 		}
-		
 	}
-
-	@Override
-	public void giveAcknowledgement(boolean answer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void transmitActualState(int state) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-
 }
