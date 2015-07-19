@@ -1,10 +1,11 @@
 package de.ees.group1.cs.controller;
 
 import de.ees.group1.bt.BT_manager;
+import de.ees.group1.com.IWorkStation;
 import de.ees.group1.model.ProductionStep;
 import de.ees.group1.model.WorkstationType;
 
-public class WorkingStation extends WorkingStationAll{
+public class WorkingStation extends WorkingStationAll implements IWorkStation{
 	public enum Type {
 		DRILL,
 		LATHE,
@@ -16,13 +17,18 @@ public class WorkingStation extends WorkingStationAll{
 	private WorkstationType type;
 	private BT_manager btManager;
 	private int id;
+	private WorkingStationAll workingStation;
 	
-	public WorkingStation(BT_manager btManager, int id){
+
+	
+	public WorkingStation(BT_manager btManager, int id, WorkingStationAll workingStation){
 		this.btManager=btManager;
 		this.btManager.register(this);
 		setId(id);
 		setMaxQualityLevel(1);
 		setStatus(-1);
+		this.workingStation=workingStation;
+		this.workingStation.setWorkingStation(this);
 	}
 	
 	public int getMaxQualityLevel(){
@@ -116,16 +122,7 @@ public class WorkingStation extends WorkingStationAll{
 	}
 
 
-	public void workstationTypeUpdatedAction(int id, WorkstationType type) {
 	
-	
-	}
-
-
-	public void workstationQualityUpdatedAction(int id, int quality) {
-	
-	
-	}
 	
 
 	
