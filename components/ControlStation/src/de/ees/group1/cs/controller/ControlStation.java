@@ -140,13 +140,14 @@ public class ControlStation implements IOrderController, IControlStation {
 		list.remove(orderID);
 		list.setProductionOrder(temp);
 		mainWindow.updateOrderList(list);
-		
 	}
 
-	@Override
+	
 	public void orderUpdatedAction(ProductionOrder tmp) {
-		// TODO Auto-generated method stub
-		
+		int i=tmp.getId();
+		list.remove(i);
+		list.setProductionOrder(tmp);
+		mainWindow.updateOrderList(list);
 	}
 
 	@Override
