@@ -2,7 +2,6 @@ package de.ees.group1.cs.controller;
 
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IControlStation;
-import de.ees.group1.cont.WorkStation;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.model.OrderList;
 import de.ees.group1.model.ProductionOrder;
@@ -18,13 +17,15 @@ public class ControlStation implements IOrderController, IControlStation {
 	private int statusNXT;
 	private BT_manager btManager;
 	private IControlStation cs;
-	ß5
+	private WorkingStationAll workingStation;
+	
 	public ControlStation(){
 		btManager=new BT_manager();
 		btManager.register(cs);
 		//Erzeugt die vier Arbeitsstationen
+		workingStation=new WorkingStationAll();
 		for (int i = 0; i < 4; i++) {
-			new WorkStation(btManager, i+1);
+			new WorkingStation(btManager, i+1, workingStation);
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
@@ -114,11 +115,6 @@ public class ControlStation implements IOrderController, IControlStation {
 		
 	}
 
-	@Override
-	public void reachedParkingPositionInd(int orderID, int nextWorkingStep) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public int getNextOrderId() {
@@ -166,6 +162,12 @@ public class ControlStation implements IOrderController, IControlStation {
 
 	@Override
 	public void transmitActualState(int state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reachedParkingPositionInd(int nextWorkingStep) {
 		// TODO Auto-generated method stub
 		
 	}
