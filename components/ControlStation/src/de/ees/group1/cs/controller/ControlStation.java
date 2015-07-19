@@ -120,7 +120,6 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 
-	@Override
 	public int getNextOrderId() {
 		return currentStepNumber++;
 	}
@@ -128,15 +127,19 @@ public class ControlStation implements IOrderController, IControlStation {
 	
 	public void moveOrderUp(int orderID) {
 		ProductionOrder temp=list.get(orderID);
-		temp.setId(orderID+1);
+		temp.setId(orderID-1);
 		list.remove(orderID);
-		list.set(orderID-1, temp);
+		list.setProductionOrder(temp);
 		mainWindow.updateOrderList(list);
 	}
 
-	@Override
+	
 	public void moveOrderDown(int orderID) {
-		// TODO Auto-generated method stub
+		ProductionOrder temp=list.get(orderID);
+		temp.setId(orderID+1);
+		list.remove(orderID);
+		list.setProductionOrder(temp);
+		mainWindow.updateOrderList(list);
 		
 	}
 
