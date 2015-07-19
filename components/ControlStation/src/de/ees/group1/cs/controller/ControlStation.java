@@ -126,20 +126,25 @@ public class ControlStation implements IOrderController, IControlStation {
 
 	
 	public void moveOrderUp(int orderID) {
-		ProductionOrder temp=list.get(orderID);
-		temp.setId(orderID-1);
-		list.remove(orderID);
-		list.setProductionOrder(temp);
-		mainWindow.updateOrderList(list);
+		if (orderID>0){
+			ProductionOrder temp=list.get(orderID);
+			temp.setId(orderID-1);
+			list.remove(orderID);
+			list.setProductionOrder(temp);
+			mainWindow.updateOrderList(list);
+		}
+		
 	}
 
 	
 	public void moveOrderDown(int orderID) {
-		ProductionOrder temp=list.get(orderID);
-		temp.setId(orderID+1);
-		list.remove(orderID);
-		list.setProductionOrder(temp);
-		mainWindow.updateOrderList(list);
+		if (orderID>0){
+			ProductionOrder temp=list.get(orderID);
+			temp.setId(orderID+1);
+			list.remove(orderID);
+			list.setProductionOrder(temp);
+			mainWindow.updateOrderList(list);
+		}
 	}
 
 	
@@ -150,7 +155,7 @@ public class ControlStation implements IOrderController, IControlStation {
 		mainWindow.updateOrderList(list);
 	}
 
-	
+	//Keine Möglichkeit den aktuell laufenden Auftrag auf dem NXT zu stoppen
 	public void activeOrderCanceledAction() {
 		
 	}
@@ -158,8 +163,6 @@ public class ControlStation implements IOrderController, IControlStation {
 
 	//Auftrag erfolgreich übertragen, keine Reaktion 
 	public void giveAcknowledgement(boolean answer) {
-		
-		
 	}
 
 	public void transmitActualState(int state) {
