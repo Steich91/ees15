@@ -3,6 +3,7 @@ package de.ees.group1.cs.controller;
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IControlStation;
 import de.ees.group1.cs.gui.IOrderController;
+import de.ees.group1.cs.gui.MainWindow;
 import de.ees.group1.model.OrderList;
 import de.ees.group1.model.ProductionOrder;
 import de.ees.group1.model.ProductionStep;
@@ -18,6 +19,7 @@ public class ControlStation implements IOrderController, IControlStation {
 	private BT_manager btManager;
 	private IControlStation cs;
 	private WorkingStationAll workingStation;
+	private MainWindow mainWindow;
 	
 	public ControlStation(){
 		btManager=new BT_manager();
@@ -102,30 +104,34 @@ public class ControlStation implements IOrderController, IControlStation {
 	public ProductionStep getCurrentStep() {
 		return currentStep;
 	}
-	
-	@Override
+
+
 	public void orderCreatedAction(ProductionOrder order) {
-		// TODO Auto-generated method stub
+		int i=order.getId();
+		list.add(i, order);
+		mainWindow.updateOrderList(list);
 		
 	}
 
-	@Override
+	
 	public void orderRemovedAction(int orderID) {
-		// TODO Auto-generated method stub
-		
+		list.remove(orderID);
+		mainWindow.updateOrderList(list);
 	}
 
 
 	@Override
 	public int getNextOrderId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return currentStepNumber++;
 	}
 
-	@Override
+	
 	public void moveOrderUp(int orderID) {
-		// TODO Auto-generated method stub
-		
+		ProductionOrder temp=list.get(orderID);
+		temp.setId(orderID+1);
+		list.remove(orderID);
+		list.set(orderID-1, temp);
+		mainWindow.updateOrderList(list);
 	}
 
 	@Override
@@ -166,10 +172,6 @@ public class ControlStation implements IOrderController, IControlStation {
 		
 	}
 
-	@Override
-	public void reachedParkingPositionInd(int nextWorkingStep) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
