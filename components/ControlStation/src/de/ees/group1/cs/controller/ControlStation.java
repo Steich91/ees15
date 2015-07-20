@@ -1,12 +1,12 @@
 package de.ees.group1.cs.controller;
 
+
+import java.util.ListIterator;
+
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IControlStation;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.cs.gui.MainWindow;
-import de.ees.group1.model.OrderList;
-import de.ees.group1.model.ProductionOrder;
-import de.ees.group1.model.ProductionStep;
 import de.ees.group1.model.*;
 
 public class ControlStation implements IOrderController, IControlStation {
@@ -19,7 +19,7 @@ public class ControlStation implements IOrderController, IControlStation {
 	private BT_manager btManager;
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
-	private WorkstationType type;
+	
 	
 	public ControlStation(MainWindow mainWindow){
 		this.mainWindow=mainWindow;
@@ -132,7 +132,13 @@ public class ControlStation implements IOrderController, IControlStation {
 
 	
 	public void orderRemovedAction(int orderID) {
-		list.remove(orderID);
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while(iterator.hasNext()){
+			ProductionOrder temp=iterator.next();
+			if (temp.getId()==orderID){
+				list.remove(temp);
+			}
+		}
 		mainWindow.updateOrderList(list);
 	}
 
