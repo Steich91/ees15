@@ -5,11 +5,12 @@ import java.util.ListIterator;
 
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IControlStation;
+import de.ees.group1.cs.gui.IConnectionController;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.cs.gui.MainWindow;
 import de.ees.group1.model.*;
 
-public class ControlStation implements IOrderController, IControlStation {
+public class ControlStation implements IOrderController, IControlStation, IConnectionController{
 
 	private ProductionOrder currentOrder;
 	private ProductionStep currentStep;
@@ -208,9 +209,7 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 
-//Nicht zu implementieren
-	public void activeOrderCanceledAction() {
-		// TODO Auto-generated method stub
-		
+public void connectBT(String MAC) {
+		btManager.connectWithDevice(MAC);
 	}
 }
