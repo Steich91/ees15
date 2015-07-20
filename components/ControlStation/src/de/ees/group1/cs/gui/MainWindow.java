@@ -79,7 +79,7 @@ public class MainWindow {
 		};
 		
 		//TODO: just for testing
-		addOrderPanel(new ProductionOrder(20));
+		//addOrderPanel(new ProductionOrder(20));
 	}
 
 	/**
@@ -137,18 +137,12 @@ public class MainWindow {
 				showAddOrderDialog();
 			}
 		});
-		panel.add(ordersPanel, "cell 0 0,grow, span 1 5");
+		panel.add(ordersPanel, "cell 0 0,grow, span 1 6");
 		
-		JPanel actOrderPanel = new ActiveOrderPanel(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				orderController.activeOrderCanceledAction();
-			}
-		});
+		JPanel actOrderPanel = new ActiveOrderPanel();
 		panel.add(actOrderPanel, "cell 1 0,grow");
 		
-		for(int i = 1; i < 4; i++) {
+		for(int i = 1; i < 5; i++) {
 			JPanel workstation = new WorkstationPanel(i,
 				new ItemListener() {
 					int id;
@@ -232,9 +226,7 @@ public class MainWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getActionCommand() == "Edit") {
-					//TODO gui update just for testing (should be triggered from listener)
-					target.setOrder(showEditOrderDialog(target.getOrder()));
-					target.update();
+					showEditOrderDialog(target.getOrder());
 				} else if (e.getActionCommand() == "Up") {
 					orderController.moveOrderUp(target.getOrder().getId());
 				} else if (e.getActionCommand() == "Down") {
@@ -262,7 +254,7 @@ public class MainWindow {
 		if(prodOrderDialog.isOrderValid()) {
 			orderController.orderCreatedAction(proto);
 			//TODO just for testing (should be done by the listener)
-			addOrderPanel(proto);
+			//addOrderPanel(proto);
 		}
 	}
 	
