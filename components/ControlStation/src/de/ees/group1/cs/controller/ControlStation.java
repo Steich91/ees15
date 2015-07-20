@@ -148,7 +148,7 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 	
-	public void moveOrderUp(int orderID) {
+	public void moveOrderDown(int orderID) {
 		int i=0;
 		ListIterator<ProductionOrder> iterator=list.listIterator();
 		while(iterator.hasNext()&(i==0)){
@@ -164,7 +164,7 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 	
-	public void moveOrderDown(int orderID) {
+	public void moveOrderUp(int orderID) {
 		int i=0;
 		ListIterator<ProductionOrder> iterator=list.listIterator();
 		while(iterator.hasNext()&(i==0)){
@@ -188,10 +188,6 @@ public class ControlStation implements IOrderController, IControlStation {
 		mainWindow.updateOrderList(list);
 	}
 
-	//Keine Möglichkeit den aktuell laufenden Auftrag auf dem NXT zu stoppen
-	public void activeOrderCanceledAction() {
-		
-	}
  
 
 	//Auftrag erfolgreich übertragen, keine Reaktion 
@@ -209,5 +205,12 @@ public class ControlStation implements IOrderController, IControlStation {
 			currentOrder=list.getFirstOrder();
 			btManager.transmitProductionOrder(currentOrder);
 		}
+	}
+
+
+//Nicht zu implementieren
+	public void activeOrderCanceledAction() {
+		// TODO Auto-generated method stub
+		
 	}
 }
