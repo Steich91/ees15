@@ -165,13 +165,19 @@ public class ControlStation implements IOrderController, IControlStation {
 
 	
 	public void moveOrderDown(int orderID) {
-		if (orderID>0){
-			ProductionOrder temp=list.get(orderID);
-			temp.setId(orderID+1);
-			list.remove(orderID);
-			list.setProductionOrder(temp);
-			mainWindow.updateOrderList(list);
+		int i=0;
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while(iterator.hasNext()&(i==0)){
+			ProductionOrder temp=iterator.next();
+			if (temp.getId()==orderID){
+				list.remove(temp);
+				int index =iterator.nextIndex();
+				index=index-2;
+				list.add(index, temp);
+				i=1;
+			}
 		}
+		mainWindow.updateOrderList(list);
 	}
 
 	
