@@ -7,7 +7,7 @@ import de.ees.group1.cs.gui.MainWindow;
 import de.ees.group1.model.OrderList;
 import de.ees.group1.model.ProductionOrder;
 import de.ees.group1.model.ProductionStep;
-
+import de.ees.group1.model.*;
 
 public class ControlStation implements IOrderController, IControlStation {
 
@@ -17,13 +17,13 @@ public class ControlStation implements IOrderController, IControlStation {
 	private OrderList list;
 	private int statusNXT;
 	private BT_manager btManager;
-	private IControlStation cs;
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
+	private WorkstationType type;
 	
 	public ControlStation(){
 		btManager=new BT_manager();
-		btManager.register(cs);
+		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
 		workingStation=new WorkingStationAll();
 		for (int i = 0; i < 4; i++) {
@@ -31,7 +31,25 @@ public class ControlStation implements IOrderController, IControlStation {
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
+		/*btManager.connectWithDevice("00:16:53:05:65:FD");
+		//Test
+		type=WorkstationType.DRILL;
+		currentStep=new ProductionStep(type, 1,5);
+		currentOrder.add(currentStep);
+		type=WorkstationType.LATHE;
+		currentStep=new ProductionStep(type, 3,2);
+		currentOrder.add(1,currentStep);
+		workingStation.workstationQualityUpdatedAction(1, 1);
+		workingStation.workstationQualityUpdatedAction(2, 1);
+		workingStation.workstationQualityUpdatedAction(3, 3);
+		workingStation.workstationQualityUpdatedAction(4, 3);
+		workingStation.workstationTypeUpdatedAction(1, WorkstationType.DRILL);
+		workingStation.workstationTypeUpdatedAction(2, WorkstationType.DRILL);
+		workingStation.workstationTypeUpdatedAction(3, WorkstationType.LATHE);
+		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
+	*/
 	}
+	
 	
 	/*
 	 * übergibt den gerade an den NXT übermittleten Auftrag an die ControlStation
