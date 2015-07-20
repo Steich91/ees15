@@ -125,8 +125,8 @@ public class ControlStation implements IOrderController, IControlStation {
 
 
 	public void orderCreatedAction(ProductionOrder order) {
-		int i=order.getId();
-		list.add(i, order);
+		
+		list.add(order);
 		mainWindow.updateOrderList(list);
 		
 	}
