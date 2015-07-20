@@ -178,9 +178,9 @@ public class BT_manager implements IComProvider{
 		
 	}
 	
-	public void transmitFinishedStep(){
+	public void transmitFinishedStep(boolean done){
 		
-		Telegramm tele = new Ack_Telegram(16,0,true);
+		Telegramm tele = new Ack_Telegram(16,0,done);
 		
 		if(this.localDev.sendMessage(tele)){
 			

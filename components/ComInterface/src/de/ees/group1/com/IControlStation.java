@@ -8,7 +8,4 @@ public interface IControlStation {
 	
 	void transmitActualState(int state);
 	
-	/*
-	 * TODO: more still to be specified
-	 */
 }
