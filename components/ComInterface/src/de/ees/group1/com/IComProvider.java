@@ -23,7 +23,7 @@ public interface IComProvider {
 	
 	void transmitNo();
 	
-	void transmitFinishedStep();
+	void transmitFinishedStep(boolean done);
 	
 	/*
 	 * TODO: more still to be specified
