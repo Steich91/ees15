@@ -21,7 +21,8 @@ public class ControlStation implements IOrderController, IControlStation {
 	private MainWindow mainWindow;
 	private WorkstationType type;
 	
-	public ControlStation(){
+	public ControlStation(MainWindow mainWindow){
+		this.mainWindow=mainWindow;
 		btManager=new BT_manager();
 		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
@@ -125,10 +126,8 @@ public class ControlStation implements IOrderController, IControlStation {
 
 
 	public void orderCreatedAction(ProductionOrder order) {
-		
 		list.add(order);
 		mainWindow.updateOrderList(list);
-		
 	}
 
 	
