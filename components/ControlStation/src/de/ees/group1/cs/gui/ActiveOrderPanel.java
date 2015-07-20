@@ -2,10 +2,8 @@ package de.ees.group1.cs.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,7 +27,7 @@ public class ActiveOrderPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ActiveOrderPanel(ActionListener cancelListener) {
+	public ActiveOrderPanel() {
 		setMinimumSize(new Dimension(300, -1));
 		setBorder(new TitledBorder(null, "aktueller Auftrag", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
@@ -67,10 +65,10 @@ public class ActiveOrderPanel extends JPanel {
 		nextStepTxt.setEditable(false);
 		add(nextStepTxt, "cell 3 2, grow");
 		
-		JButton cancelBtn = new JButton("Abbrechen");
-		cancelBtn.addActionListener(cancelListener);
-		cancelBtn.setEnabled(false);
-		add(cancelBtn, "cell 3 0, right");
+//		JButton cancelBtn = new JButton("Abbrechen");
+//		cancelBtn.addActionListener(cancelListener);
+//		cancelBtn.setEnabled(false);
+//		add(cancelBtn, "cell 3 0, right");
 	}
 	
 	public void setOrderStatus() {
