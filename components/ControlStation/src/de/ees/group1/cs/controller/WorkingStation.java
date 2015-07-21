@@ -106,9 +106,9 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 	public void giveCurrentStep(ProductionStep step) {
 		int maxQualityWS=getMaxQualityLevel();
 		currentStep=step;
-		if ((status==1) & (maxQualityWS>=currentStep.getMinQualityLevel())){
+		if ((status==1) & (maxQualityWS>=currentStep.getMinQualityLevel())&(currentStep.getType()==this.type)){
 			btManager.transmitYes();
-		}
+		} 
 		else{
 			btManager.transmitNo();
 		}
