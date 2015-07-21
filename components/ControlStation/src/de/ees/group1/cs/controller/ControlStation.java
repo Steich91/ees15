@@ -8,7 +8,10 @@ import de.ees.group1.com.IControlStation;
 import de.ees.group1.cs.gui.IConnectionController;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.cs.gui.MainWindow;
-import de.ees.group1.model.*;
+import de.ees.group1.model.OrderList;
+import de.ees.group1.model.ProductionOrder;
+import de.ees.group1.model.ProductionStep;
+import de.ees.group1.model.WorkstationType;
 
 public class ControlStation implements IOrderController, IControlStation, IConnectionController{
 
@@ -21,7 +24,6 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
 	private boolean isInWaitingPosition;
-	private WorkingStation currentWorkStation;
 	
 	
 	public ControlStation(MainWindow mainWindow){
@@ -35,28 +37,57 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
-		/*btManager.connectWithDevice("00:16:53:05:65:FD");
+		btManager.connectWithDevice("00:16:53:05:65:FD");
 		//Test
-		type=WorkstationType.DRILL;
-		currentStep=new ProductionStep(type, 1,5);
+		currentOrder = new ProductionOrder(0);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
 		currentOrder.add(currentStep);
-		type=WorkstationType.LATHE;
-		currentStep=new ProductionStep(type, 3,2);
+		currentStep=new ProductionStep(WorkstationType.LATHE, 3,2);
 		currentOrder.add(1,currentStep);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
+		currentOrder.add(2,currentStep);
+		list.setProductionOrder(currentOrder);
+		
+		currentOrder = new ProductionOrder(3);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
+		currentOrder.add(currentStep);
+		currentStep=new ProductionStep(WorkstationType.LATHE, 4,2);
+		currentOrder.add(1,currentStep);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
+		currentOrder.add(2,currentStep);
+		
+		list.setProductionOrder(currentOrder);
+		
+		currentOrder=new ProductionOrder(45);
+		currentStep=new ProductionStep(WorkstationType.DRILL,3,4);
+		currentOrder.add(currentStep);
+		currentStep=new ProductionStep(WorkstationType.LATHE,2,3);
+		currentOrder.add(currentStep);
+		list.setProductionOrder(currentOrder);
+		
 		workingStation.workstationQualityUpdatedAction(1, 1);
 		workingStation.workstationQualityUpdatedAction(2, 1);
 		workingStation.workstationQualityUpdatedAction(3, 3);
 		workingStation.workstationQualityUpdatedAction(4, 3);
 		workingStation.workstationTypeUpdatedAction(1, WorkstationType.DRILL);
-		workingStation.workstationTypeUpdatedAction(2, WorkstationType.DRILL);
-		workingStation.workstationTypeUpdatedAction(3, WorkstationType.LATHE);
+		workingStation.workstationTypeUpdatedAction(2, WorkstationType.LATHE);
+		workingStation.workstationTypeUpdatedAction(3, WorkstationType.DRILL);
 		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
-	*/
+		
+		
+		reachedParkingPositionInd(21);
+		//btManager.transmitProductionOrder(currentOrder);
+		//*/
 	}
 	
+	public BT_manager getManager(){
+		
+		return this.btManager;
+		
+	}
 	
 	/*
-	 * übergibt den gerade an den NXT übermittleten Auftrag an die ControlStation
+	 * ï¿½bergibt den gerade an den NXT ï¿½bermittleten Auftrag an die ControlStation
 	 */	
 	public void setCurrentOrder(){
 		currentOrder=list.getFirstOrder();
@@ -64,38 +95,35 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	}
 	
 	/*
-	 * Fügt der Liste mit den ProductionOrder einen neuen Auftrag zu.
+	 * Fï¿½gt der Liste mit den ProductionOrder einen neuen Auftrag zu.
 	 */
 	public void addProductionOrder(ProductionOrder order){
 		list.setProductionOrder(order);
+		
 	}
-	/*
-	 * Gibt den Status des NXT zurück
-	 */
+	
 	public int getStatusNXT(){
 		return statusNXT;
 	}
-	/*
-	 * evaluiert den Status des NXT und setzt die aktuelle Arbeitsstation. Bei Abarbeitung eines Schritts wird die Variable currentStepNumber erhöht
-	 */
+	
 	public void evaluateStatusNXT(){
 		int status=getStatusNXT();
 		if ((0<status) & (status<=22)){
 			switch (status){
 			case 1: case 5: case 9: case 13: case 17:
-				currentWorkStation=workingStation.getWorkingStaion(1);
+				//setWorkStation(1);
 				break;
 			case 2: case 6: case 10: case 14: case 18:
-				currentWorkStation=workingStation.getWorkingStaion(2);
+				//setWorkStation(2);
 				break;
 			case 3: case 7: case 11: case 15: case 19:
-				currentWorkStation=workingStation.getWorkingStaion(3);
+				//setWorkStation(3);
 				break;
 			case 4: case 8: case 12: case 16: case 20:
-				currentWorkStation=workingStation.getWorkingStaion(4);
+				//setWorkStation(4);
 				break;
 			case 21:
-				//neuen Auftrag anstoßen
+				//neuen Auftrag anstoï¿½en
 				break;
 			case 22:
 				//Meldung alles kaputt
@@ -105,7 +133,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=20)){
 			switch (status){
 			case 1: case 2: case 3: case 4: 
-				currentStepNumber++;
+				//action to "Einfahrt");
 				break;
 			case 5: case 6: case 7: case 8: 
 				//action to "Weiterfahrt";
@@ -117,41 +145,32 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 				//Arbeit beendet;
 				break;
 			case 17: case 18: case 19: case 20: 
-				//arbeit konnte nicht durchgeführt werden;
+				//arbeit konnte nicht durchgefï¿½hrt werden;
 				break;
 			}
 		}
 	}
-	/*
-	 * übergibt der variablen currentStep den aktuellen Schritt
-	 */
+	
 	public void setCurrentStep(ProductionStep step) {
 		currentStep=step;		
 	}
 
-	/*
-	 * Gibt die Variable currentStep zurück
-	 */
+	
 	public ProductionStep getCurrentStep() {
 		return currentStep;
 	}
 
-	/*
-	 * fügt der list die Übergebene ProductionOrder zu.
-	 * updated im Mainwindo die Liste mit den Aufträgen
-	 * falls kein Auftrag in der Order war, als der NXT die Parkposition erreicht hat, wird versucht den aktuellen Auftrag zu senden
-	 */
+
 	public void orderCreatedAction(ProductionOrder order) {
 		list.add(order);
 		mainWindow.updateOrderList(list);
 		if(isInWaitingPosition==true){
-		reachedParkingPositionInd(21);
+			reachedParkingPositionInd(21);
 		}
 	}
 
-	/*
-	 * Entfernt den Auftrag mit der übergebenen ID
-	 */
+	
+	
 	public void orderRemovedAction(int orderID) {
 		ListIterator<ProductionOrder> iterator=list.listIterator();
 		while(iterator.hasNext()){
@@ -163,22 +182,12 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		mainWindow.updateOrderList(list);
 	}
 
-/*
- * Gibt die ID des nächsten Auftrags zurück
- */
+
 	public int getNextOrderId() {
-		ListIterator<ProductionOrder> iterator=list.listIterator();
-		if(iterator.hasNext()){
-			return iterator.next().getId();
-		}
-		else{
-			return -1;
-		}
+		return currentStepNumber++;
 	}
 
-	/*
-	 *Verschiebt die Order mit der angegebenen ID eins nach unten und updated das mainwindow 
-	 */
+	
 	public void moveOrderDown(int orderID) {
 		int i=0;
 		ListIterator<ProductionOrder> iterator=list.listIterator();
@@ -194,9 +203,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		mainWindow.updateOrderList(list);
 	}
 
-	/*
-	 *Verschiebt die Order mit der angegebenen ID eins nach oben und updated das mainwindow 
-	 */
+	
 	public void moveOrderUp(int orderID) {
 		int i=0;
 		ListIterator<ProductionOrder> iterator=list.listIterator();
@@ -213,34 +220,32 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		mainWindow.updateOrderList(list);
 	}
 
-	/*
-	 * Aktualisiert die ausgewählte Order
-	 */
+	
 	public void orderUpdatedAction(ProductionOrder tmp) {
-		int i=tmp.getId();
-		list.remove(i);
-		list.setProductionOrder(tmp);
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while (iterator.hasNext()){
+			ProductionOrder order =iterator.next();
+			if(order.getId()==tmp.getId()){
+				iterator.set(tmp);
+			}
+		}
 		mainWindow.updateOrderList(list);
 	}
 
-	//Auftrag erfolgreich übertragen, keine Reaktion 
+	//Auftrag erfolgreich ï¿½bertragen, keine Reaktion 
 	public void giveAcknowledgement(boolean answer) {
 	}
 
-	/*
-	 * aktualisiert den Status des NXT und evaluiert ihn anschließend
-	 */
 	public void transmitActualState(int state) {
 		statusNXT=state;
 		evaluateStatusNXT();
+		
 	}
 
-	/*
-	 *NXT hat die Parkposition erreicht, falls der vorherige Auftrag erfolgreich durchgeführt wurde, wird der nächste Auftrag übergeben
-	 *Falls der aktuelle Auftrag nicht erfolgreich verlief wird kein Auftrag mehr übermittelt
-	 */
 	public void reachedParkingPositionInd(int nextWorkingStep) {
-		if  (nextWorkingStep==21){
+		System.out.println("Ãœbertragener Wert"+nextWorkingStep);
+		System.out.println("Sollwert:"+ currentStepNumber);
+		if (nextWorkingStep==21){
 			if(isInWaitingPosition==false){
 				list.remove(0);
 			}
@@ -252,16 +257,10 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			else{
 				isInWaitingPosition=true;
 				
-			}
-		}
-		else{
-			
 		}
 	}
+}
 
-	/*
-	 * Verbindet sich mit dem NXT
-	 */
 	public void connectBT(String MAC) {
 		btManager.connectWithDevice(MAC);
 	}
