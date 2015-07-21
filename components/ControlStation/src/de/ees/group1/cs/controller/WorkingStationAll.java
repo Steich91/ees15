@@ -26,4 +26,8 @@ public  class WorkingStationAll  implements IWorkstationController{
 		workStation[id-1].setMaxQualityLevel(quality);
 		mainWindow.updateWorkstationState();
 	}
+	
+	public  WorkingStation getWorkingStaion(int id){
+		return workStation[id-1];
+	}
 }
