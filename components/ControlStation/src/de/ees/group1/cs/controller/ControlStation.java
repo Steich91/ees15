@@ -20,6 +20,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	private BT_manager btManager;
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
+	private boolean isInWaitingPosition;
 	
 	
 	public ControlStation(MainWindow mainWindow){
@@ -60,6 +61,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		currentOrder=list.getFirstOrder();
 		currentStepNumber=0;
 	}
+	
 	/*
 	 * Fügt der Liste mit den ProductionOrder einen neuen Auftrag zu.
 	 */
@@ -129,6 +131,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	public void orderCreatedAction(ProductionOrder order) {
 		list.add(order);
 		mainWindow.updateOrderList(list);
+		reachedParkingPositionInd(currentStepNumber);
 	}
 
 	
@@ -189,8 +192,6 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		mainWindow.updateOrderList(list);
 	}
 
- 
-
 	//Auftrag erfolgreich übertragen, keine Reaktion 
 	public void giveAcknowledgement(boolean answer) {
 	}
@@ -203,13 +204,22 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 
 	public void reachedParkingPositionInd(int nextWorkingStep) {
 		if ((nextWorkingStep==currentStepNumber)&(currentOrder.size()>=nextWorkingStep)){
+			if(list.isEmpty()==false){
 			currentOrder=list.getFirstOrder();
 			btManager.transmitProductionOrder(currentOrder);
+			isInWaitingPosition=false;
+			}
+			else{
+				isInWaitingPosition=true;
+				currentStepNumber=nextWorkingStep;
+			}
+		}
+		else{
+			
 		}
 	}
 
-
-public void connectBT(String MAC) {
+	public void connectBT(String MAC) {
 		btManager.connectWithDevice(MAC);
 	}
 }
