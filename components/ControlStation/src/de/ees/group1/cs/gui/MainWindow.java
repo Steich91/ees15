@@ -212,20 +212,20 @@ public class MainWindow {
 	}
 	
 	public void updateOrderList(List<ProductionOrder> list) {
-		ListedOrderPanel[] orderPanels = ordersPanel.getOrderPanels();
+		List<ListedOrderPanel> orderPanels = ordersPanel.getOrderPanels();
 		int i = 0;
 		for(ProductionOrder order : list) {
-			if(orderPanels.length < i+1) {
+			if(orderPanels.size() < i+1) {
 				addOrderPanel(order);
 			} else {
-				orderPanels[i].setOrder(order);
-				orderPanels[i].update();				
+				orderPanels.get(i).setOrder(order);
+				orderPanels.get(i).update();
 			}
 			i++;
 		}
 		//remove excessive panels
-		for(;i < orderPanels.length; i++) {
-			ordersPanel.removeOrderPanel(orderPanels[i]);
+		for(;i < orderPanels.size(); i++) {
+			ordersPanel.removeOrderPanel(orderPanels.get(i));
 		}
 		
 	}

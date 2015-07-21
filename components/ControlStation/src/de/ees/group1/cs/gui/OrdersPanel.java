@@ -2,9 +2,12 @@ package de.ees.group1.cs.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -55,8 +58,14 @@ public class OrdersPanel extends JPanel {
 		orderListPanel.repaint();
 	}
 	
-	public ListedOrderPanel[] getOrderPanels() {
-		return (ListedOrderPanel[]) orderListPanel.getComponents();
+	public List<ListedOrderPanel> getOrderPanels() {
+		List<ListedOrderPanel> list = new LinkedList<ListedOrderPanel>();
+		for(Component c : orderListPanel.getComponents()) {
+			if(c instanceof ListedOrderPanel) {
+				list.add((ListedOrderPanel)c);
+			}
+		}
+		return list;
 	}
 	
 	public void removeOrderPanel(ListedOrderPanel p) {
