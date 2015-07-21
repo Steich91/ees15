@@ -135,7 +135,7 @@ public class BT_device /*implements DiscoveryListener*/ {
 		case 2: {
 			ProductionStep prodStep = new ProductionStep();
 			prodStep.setMinQualityLevel(data[6]-48);
-			prodStep.setWorkTimeSeconds(data[5]-48);
+			prodStep.setWorkTimeSeconds(data[5]-47);
 			switch(data[4]-48){
 			case 0:	{
 				prodStep.setType(WorkstationType.NONE);
@@ -155,10 +155,15 @@ public class BT_device /*implements DiscoveryListener*/ {
 			}
 			return new Step_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), prodStep);
 		}
-		case 3:
-			return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48));
+		case 3:{
+			if(length == 4){
+				return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48));
+			}else{
+				return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48)*10+data[4]);
+			}
+		}
 		case 4:
-			return new Finished_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48));
+			return new Finished_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48)*10+data[4]);
 		default:
 		}
 		
