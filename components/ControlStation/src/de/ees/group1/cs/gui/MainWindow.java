@@ -15,9 +15,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import net.miginfocom.swing.MigLayout;
+import de.ees.group1.bt.BT_manager;
+import de.ees.group1.cs.controller.ControlStation;
 import de.ees.group1.model.ProductionOrder;
 import de.ees.group1.model.WorkstationType;
-import net.miginfocom.swing.MigLayout;
 
 public class MainWindow {
 
@@ -31,16 +33,34 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		/*ControlStation cs = new ControlStation(this);
+		BT_manager man = cs.getManager();
+		
+		while(true){
+			
+			man.getMessage();
+			
+		}*/
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frmControlstation.setVisible(true);
+					ControlStation cs = new ControlStation(window);
+					BT_manager man = cs.getManager();
+					
+					while(true){
+						
+						man.getMessage();
+						
+					}
+					//window.frmControlstation.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		});
+		});//*/
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 		this.btManager.register(this);
 		setId(id);
 		setMaxQualityLevel(1);
-		setStatus(-1);
+		setStatus(1);
 		this.workingStation=workingStation;
 		this.workingStation.setWorkingStation(this);
 	}
@@ -44,28 +44,28 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 	}
 	
 	/*
-	 * setzt das maximal von der Arbeitsstation zu bewältigende Qualitätsniveau
+	 * setzt das maximal von der Arbeitsstation zu bewï¿½ltigende Qualitï¿½tsniveau
 	 */
 	public void setMaxQualityLevel(int maxQualityLevel){
 		this.maxQualityLevel=maxQualityLevel;
 	}
 	
 	/*
-	 * Gibt den aktuellen Status der Arbeitsstation zurück
+	 * Gibt den aktuellen Status der Arbeitsstation zurï¿½ck
 	 */
 	public int getStatus(){
 		return status;
 	}
 	
 	/*
-	 * Gibt den Status der Arbeitsstation zurück. -1...default, 0...bereit, 1...in Betrieb, 2...defekt 
+	 * Gibt den Status der Arbeitsstation zurï¿½ck. -1...default, 0...bereit, 1...in Betrieb, 2...defekt 
 	 */
 	public void setStatus(int status){
 		this.status=status;
 	}
 	
 	/*
-	 * Gibt den aktuellen Arbeitsschritt zurück
+	 * Gibt den aktuellen Arbeitsschritt zurï¿½ck
 	 */
 	public ProductionStep getStep(){
 		return currentStep;
@@ -112,18 +112,10 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 		else{
 			btManager.transmitNo();
 		}
-	
-}
+	}
 
 	//NXT hat Arbeitsposition und wartet auf abarbeitung des aktuellen Auftrags
 	public void giveAcknowledgement(boolean answer) {
 		simulateWork();
-	
 	}
-
-
-	
-	
-
-	
 }

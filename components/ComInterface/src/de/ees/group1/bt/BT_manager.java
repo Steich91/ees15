@@ -11,6 +11,7 @@ import de.ees.group1.com.IWorkStation;
 import de.ees.group1.model.Ack_Telegram;
 import de.ees.group1.model.Order_Telegram;
 import de.ees.group1.model.ProductionOrder;
+import de.ees.group1.model.ProductionStep;
 import de.ees.group1.model.Telegramm;
 
 public class BT_manager implements IComProvider{
@@ -115,6 +116,10 @@ public class BT_manager implements IComProvider{
 					break;
 				}
 				case 2: {
+					ProductionStep currentStep = tele.getDataStep();
+					System.out.println("	"+currentStep.getType());
+					System.out.println("	"+currentStep.getMinQualityLevel());
+					System.out.println("	"+currentStep.getWorkTimeSeconds());
 					this.workStation.get(tele.getDestination()-1).giveCurrentStep(tele.getDataStep());
 					break;
 				}

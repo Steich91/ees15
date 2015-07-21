@@ -26,13 +26,22 @@ public class Step_Telegram extends Telegramm {
 		message = "" + this.getDestination() + "" +this.getSource() + "" + this.getType();
 		
 		switch(this.data.getType()){
-		case NONE: message = message + 0;
-		case LATHE: message = message + 1;
-		case DRILL: message = message + 2;
+		case NONE: {
+			message = message + 0;
+			break;
+		}
+		case LATHE: {
+			message = message + 1;
+			break;
+		}
+		case DRILL: {
+			message = message + 2;
+			break;
+		}
 		default: 
 		}
 		
-		message = message + "" + this.data.getWorkTimeSeconds() + "" + this.data.getMinQualityLevel();
+		message = message + "" + (this.data.getWorkTimeSeconds()-1) + "" + this.data.getMinQualityLevel();
 		
 		return message;
 		
