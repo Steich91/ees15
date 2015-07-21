@@ -8,10 +8,7 @@ import de.ees.group1.com.IControlStation;
 import de.ees.group1.cs.gui.IConnectionController;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.cs.gui.MainWindow;
-import de.ees.group1.model.OrderList;
-import de.ees.group1.model.ProductionOrder;
-import de.ees.group1.model.ProductionStep;
-import de.ees.group1.model.WorkstationType;
+import de.ees.group1.model.*;
 
 public class ControlStation implements IOrderController, IControlStation, IConnectionController{
 
@@ -37,57 +34,28 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
-		btManager.connectWithDevice("00:16:53:05:65:FD");
+		/*btManager.connectWithDevice("00:16:53:05:65:FD");
 		//Test
-		currentOrder = new ProductionOrder(0);
-		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
+		type=WorkstationType.DRILL;
+		currentStep=new ProductionStep(type, 1,5);
 		currentOrder.add(currentStep);
-		currentStep=new ProductionStep(WorkstationType.LATHE, 3,2);
+		type=WorkstationType.LATHE;
+		currentStep=new ProductionStep(type, 3,2);
 		currentOrder.add(1,currentStep);
-		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
-		currentOrder.add(2,currentStep);
-		list.setProductionOrder(currentOrder);
-		
-		currentOrder = new ProductionOrder(3);
-		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
-		currentOrder.add(currentStep);
-		currentStep=new ProductionStep(WorkstationType.LATHE, 4,2);
-		currentOrder.add(1,currentStep);
-		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
-		currentOrder.add(2,currentStep);
-		
-		list.setProductionOrder(currentOrder);
-		
-		currentOrder=new ProductionOrder(45);
-		currentStep=new ProductionStep(WorkstationType.DRILL,3,4);
-		currentOrder.add(currentStep);
-		currentStep=new ProductionStep(WorkstationType.LATHE,2,3);
-		currentOrder.add(currentStep);
-		list.setProductionOrder(currentOrder);
-		
 		workingStation.workstationQualityUpdatedAction(1, 1);
 		workingStation.workstationQualityUpdatedAction(2, 1);
 		workingStation.workstationQualityUpdatedAction(3, 3);
 		workingStation.workstationQualityUpdatedAction(4, 3);
 		workingStation.workstationTypeUpdatedAction(1, WorkstationType.DRILL);
-		workingStation.workstationTypeUpdatedAction(2, WorkstationType.LATHE);
-		workingStation.workstationTypeUpdatedAction(3, WorkstationType.DRILL);
+		workingStation.workstationTypeUpdatedAction(2, WorkstationType.DRILL);
+		workingStation.workstationTypeUpdatedAction(3, WorkstationType.LATHE);
 		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
-		
-		
-		reachedParkingPositionInd(21);
-		//btManager.transmitProductionOrder(currentOrder);
-		//*/
+	*/
 	}
 	
-	public BT_manager getManager(){
-		
-		return this.btManager;
-		
-	}
 	
 	/*
-	 * ï¿½bergibt den gerade an den NXT ï¿½bermittleten Auftrag an die ControlStation
+	 * übergibt den gerade an den NXT übermittleten Auftrag an die ControlStation
 	 */	
 	public void setCurrentOrder(){
 		currentOrder=list.getFirstOrder();
@@ -95,11 +63,10 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	}
 	
 	/*
-	 * Fï¿½gt der Liste mit den ProductionOrder einen neuen Auftrag zu.
+	 * Fügt der Liste mit den ProductionOrder einen neuen Auftrag zu.
 	 */
 	public void addProductionOrder(ProductionOrder order){
 		list.setProductionOrder(order);
-		
 	}
 	
 	public int getStatusNXT(){
@@ -123,7 +90,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 				//setWorkStation(4);
 				break;
 			case 21:
-				//neuen Auftrag anstoï¿½en
+				//neuen Auftrag anstoßen
 				break;
 			case 22:
 				//Meldung alles kaputt
@@ -133,7 +100,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=20)){
 			switch (status){
 			case 1: case 2: case 3: case 4: 
-				//action to "Einfahrt");
+				currentStepNumber++;
 				break;
 			case 5: case 6: case 7: case 8: 
 				//action to "Weiterfahrt";
@@ -145,7 +112,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 				//Arbeit beendet;
 				break;
 			case 17: case 18: case 19: case 20: 
-				//arbeit konnte nicht durchgefï¿½hrt werden;
+				//arbeit konnte nicht durchgeführt werden;
 				break;
 			}
 		}
@@ -165,7 +132,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		list.add(order);
 		mainWindow.updateOrderList(list);
 		if(isInWaitingPosition==true){
-			reachedParkingPositionInd(21);
+		reachedParkingPositionInd(21);
 		}
 	}
 
@@ -227,7 +194,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		mainWindow.updateOrderList(list);
 	}
 
-	//Auftrag erfolgreich ï¿½bertragen, keine Reaktion 
+	//Auftrag erfolgreich übertragen, keine Reaktion 
 	public void giveAcknowledgement(boolean answer) {
 	}
 
@@ -238,9 +205,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	}
 
 	public void reachedParkingPositionInd(int nextWorkingStep) {
-		System.out.println("Ãœbertragener Wert"+nextWorkingStep);
-		System.out.println("Sollwert:"+ currentStepNumber);
-		if (nextWorkingStep==21){
+		if  (nextWorkingStep==21){
 			if(isInWaitingPosition==false){
 				list.remove(0);
 			}
@@ -252,9 +217,12 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			else{
 				isInWaitingPosition=true;
 				
+			}
+		}
+		else{
+			
 		}
 	}
-}
 
 	public void connectBT(String MAC) {
 		btManager.connectWithDevice(MAC);
