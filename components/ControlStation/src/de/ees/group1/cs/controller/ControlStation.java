@@ -21,6 +21,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
 	private boolean isInWaitingPosition;
+	private WorkingStation currentWorkStation;
 	
 	
 	public ControlStation(MainWindow mainWindow){
@@ -78,16 +79,16 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=22)){
 			switch (status){
 			case 1: case 5: case 9: case 13: case 17:
-				//setWorkStation(1);
+				currentWorkStation=workingStation.getWorkingStaion(1);
 				break;
 			case 2: case 6: case 10: case 14: case 18:
-				//setWorkStation(2);
+				currentWorkStation=workingStation.getWorkingStaion(2);
 				break;
 			case 3: case 7: case 11: case 15: case 19:
-				//setWorkStation(3);
+				currentWorkStation=workingStation.getWorkingStaion(3);
 				break;
 			case 4: case 8: case 12: case 16: case 20:
-				//setWorkStation(4);
+				currentWorkStation=workingStation.getWorkingStaion(4);
 				break;
 			case 21:
 				//neuen Auftrag anstoßen
