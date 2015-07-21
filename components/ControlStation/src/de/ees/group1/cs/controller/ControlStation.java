@@ -194,10 +194,12 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		while(iterator.hasNext()&(i==0)){
 			ProductionOrder temp=iterator.next();
 			if (temp.getId()==orderID){
+				if(iterator.hasNext()){
 				list.remove(temp);
 				int index =iterator.nextIndex();
 				list.add(index, temp);
 				i=1;
+				}
 			}
 		}
 		mainWindow.updateOrderList(list);
@@ -210,11 +212,13 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		while(iterator.hasNext()&(i==0)){
 			ProductionOrder temp=iterator.next();
 			if (temp.getId()==orderID){
-				list.remove(temp);
+				if(iterator.hasNext()){
+					list.remove(temp);
 				int index =iterator.nextIndex();
 				index=index-2;
 				list.add(index, temp);
 				i=1;
+				}
 			}
 		}
 		mainWindow.updateOrderList(list);
