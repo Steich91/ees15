@@ -112,18 +112,10 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 		else{
 			btManager.transmitNo();
 		}
-	
-}
+	}
 
 	//NXT hat Arbeitsposition und wartet auf abarbeitung des aktuellen Auftrags
 	public void giveAcknowledgement(boolean answer) {
 		simulateWork();
-	
 	}
-
-
-	
-	
-
-	
 }

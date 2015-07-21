@@ -100,7 +100,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=20)){
 			switch (status){
 			case 1: case 2: case 3: case 4: 
-				//action to "Einfahrt");
+				currentStepNumber++;
 				break;
 			case 5: case 6: case 7: case 8: 
 				//action to "Weiterfahrt";
@@ -131,7 +131,9 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	public void orderCreatedAction(ProductionOrder order) {
 		list.add(order);
 		mainWindow.updateOrderList(list);
-		reachedParkingPositionInd(currentStepNumber);
+		if(isInWaitingPosition==true){
+		reachedParkingPositionInd(21);
+		}
 	}
 
 	
@@ -203,7 +205,10 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	}
 
 	public void reachedParkingPositionInd(int nextWorkingStep) {
-		if ((nextWorkingStep==currentStepNumber)&(currentOrder.size()>=nextWorkingStep)){
+		if  (nextWorkingStep==21){
+			if(isInWaitingPosition==false){
+				list.remove(0);
+			}
 			if(list.isEmpty()==false){
 			currentOrder=list.getFirstOrder();
 			btManager.transmitProductionOrder(currentOrder);
@@ -211,7 +216,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			}
 			else{
 				isInWaitingPosition=true;
-				currentStepNumber=nextWorkingStep;
+				
 			}
 		}
 		else{
@@ -221,5 +226,19 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 
 	public void connectBT(String MAC) {
 		btManager.connectWithDevice(MAC);
+	}
+
+
+	@Override
+	public void connectBT(byte[] MAC) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void activeOrderCanceledAction() {
+		// TODO Auto-generated method stub
+		
 	}
 }
