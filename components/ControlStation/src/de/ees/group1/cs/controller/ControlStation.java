@@ -28,6 +28,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	
 	public ControlStation(MainWindow mainWindow){
 		this.mainWindow=mainWindow;
+		mainWindow.registerConnectionController(this);
 		btManager=new BT_manager();
 		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
