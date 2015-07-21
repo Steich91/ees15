@@ -18,7 +18,7 @@ public  class WorkingStationAll  implements IWorkstationController{
 	
 	public void workstationTypeUpdatedAction(int id, WorkstationType type) {
 		workStation[id-1].setType(type);
-		//mainWindow.updateWorkstationState();	
+		mainWindow.updateWorkstationState();	
 	}
 
 	
