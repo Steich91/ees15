@@ -1,15 +1,19 @@
 package de.ees.group1.cs.controller;
 
+
+import java.util.ListIterator;
+
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IControlStation;
+import de.ees.group1.cs.gui.IConnectionController;
 import de.ees.group1.cs.gui.IOrderController;
 import de.ees.group1.cs.gui.MainWindow;
 import de.ees.group1.model.OrderList;
 import de.ees.group1.model.ProductionOrder;
 import de.ees.group1.model.ProductionStep;
-import de.ees.group1.model.*;
+import de.ees.group1.model.WorkstationType;
 
-public class ControlStation implements IOrderController, IControlStation {
+public class ControlStation implements IOrderController, IControlStation, IConnectionController{
 
 	private ProductionOrder currentOrder;
 	private ProductionStep currentStep;
@@ -17,12 +21,13 @@ public class ControlStation implements IOrderController, IControlStation {
 	private OrderList list;
 	private int statusNXT;
 	private BT_manager btManager;
-	private IControlStation cs;
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
-	private WorkstationType type;
+	private boolean isInWaitingPosition;
 	
-	public ControlStation(){
+	
+	public ControlStation(MainWindow mainWindow){
+		this.mainWindow=mainWindow;
 		btManager=new BT_manager();
 		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
@@ -32,16 +37,34 @@ public class ControlStation implements IOrderController, IControlStation {
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
-		
-		
+		btManager.connectWithDevice("00:16:53:05:65:FD");
 		//Test
-		currentOrder = new ProductionOrder(4);
-		type=WorkstationType.DRILL;
-		currentStep=new ProductionStep(type, 1,5);
+		currentOrder = new ProductionOrder(0);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
 		currentOrder.add(currentStep);
-		type=WorkstationType.LATHE;
-		currentStep=new ProductionStep(type, 3,2);
+		currentStep=new ProductionStep(WorkstationType.LATHE, 3,2);
 		currentOrder.add(1,currentStep);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
+		currentOrder.add(2,currentStep);
+		list.setProductionOrder(currentOrder);
+		
+		currentOrder = new ProductionOrder(3);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
+		currentOrder.add(currentStep);
+		currentStep=new ProductionStep(WorkstationType.LATHE, 4,2);
+		currentOrder.add(1,currentStep);
+		currentStep=new ProductionStep(WorkstationType.DRILL, 1,3);
+		currentOrder.add(2,currentStep);
+		
+		list.setProductionOrder(currentOrder);
+		
+		currentOrder=new ProductionOrder(45);
+		currentStep=new ProductionStep(WorkstationType.DRILL,3,4);
+		currentOrder.add(currentStep);
+		currentStep=new ProductionStep(WorkstationType.LATHE,2,3);
+		currentOrder.add(currentStep);
+		list.setProductionOrder(currentOrder);
+		
 		workingStation.workstationQualityUpdatedAction(1, 1);
 		workingStation.workstationQualityUpdatedAction(2, 1);
 		workingStation.workstationQualityUpdatedAction(3, 3);
@@ -51,9 +74,10 @@ public class ControlStation implements IOrderController, IControlStation {
 		workingStation.workstationTypeUpdatedAction(3, WorkstationType.DRILL);
 		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
 		
-		btManager.connectWithDevice("00:16:53:05:65:FD");
-		btManager.transmitProductionOrder(currentOrder);
 		
+		reachedParkingPositionInd(21);
+		//btManager.transmitProductionOrder(currentOrder);
+		//*/
 	}
 	
 	public BT_manager getManager(){
@@ -69,11 +93,13 @@ public class ControlStation implements IOrderController, IControlStation {
 		currentOrder=list.getFirstOrder();
 		currentStepNumber=0;
 	}
+	
 	/*
 	 * F�gt der Liste mit den ProductionOrder einen neuen Auftrag zu.
 	 */
 	public void addProductionOrder(ProductionOrder order){
 		list.setProductionOrder(order);
+		
 	}
 	
 	public int getStatusNXT(){
@@ -136,15 +162,22 @@ public class ControlStation implements IOrderController, IControlStation {
 
 
 	public void orderCreatedAction(ProductionOrder order) {
-		int i=order.getId();
-		list.add(i, order);
+		list.add(order);
 		mainWindow.updateOrderList(list);
-		
+		if(isInWaitingPosition==true){
+			reachedParkingPositionInd(21);
+		}
 	}
 
 	
 	public void orderRemovedAction(int orderID) {
-		list.remove(orderID);
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while(iterator.hasNext()){
+			ProductionOrder temp=iterator.next();
+			if (temp.getId()==orderID){
+				list.remove(temp);
+			}
+		}
 		mainWindow.updateOrderList(list);
 	}
 
@@ -154,26 +187,36 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 	
-	public void moveOrderUp(int orderID) {
-		if (orderID>0){
-			ProductionOrder temp=list.get(orderID);
-			temp.setId(orderID-1);
-			list.remove(orderID);
-			list.setProductionOrder(temp);
-			mainWindow.updateOrderList(list);
+	public void moveOrderDown(int orderID) {
+		int i=0;
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while(iterator.hasNext()&(i==0)){
+			ProductionOrder temp=iterator.next();
+			if (temp.getId()==orderID){
+				list.remove(temp);
+				int index =iterator.nextIndex();
+				list.add(index, temp);
+				i=1;
+			}
 		}
-		
+		mainWindow.updateOrderList(list);
 	}
 
 	
-	public void moveOrderDown(int orderID) {
-		if (orderID>0){
-			ProductionOrder temp=list.get(orderID);
-			temp.setId(orderID+1);
-			list.remove(orderID);
-			list.setProductionOrder(temp);
-			mainWindow.updateOrderList(list);
+	public void moveOrderUp(int orderID) {
+		int i=0;
+		ListIterator<ProductionOrder> iterator=list.listIterator();
+		while(iterator.hasNext()&(i==0)){
+			ProductionOrder temp=iterator.next();
+			if (temp.getId()==orderID){
+				list.remove(temp);
+				int index =iterator.nextIndex();
+				index=index-2;
+				list.add(index, temp);
+				i=1;
+			}
 		}
+		mainWindow.updateOrderList(list);
 	}
 
 	
@@ -183,12 +226,6 @@ public class ControlStation implements IOrderController, IControlStation {
 		list.setProductionOrder(tmp);
 		mainWindow.updateOrderList(list);
 	}
-
-	//Keine M�glichkeit den aktuell laufenden Auftrag auf dem NXT zu stoppen
-	public void activeOrderCanceledAction() {
-		
-	}
- 
 
 	//Auftrag erfolgreich �bertragen, keine Reaktion 
 	public void giveAcknowledgement(boolean answer) {
@@ -201,9 +238,39 @@ public class ControlStation implements IOrderController, IControlStation {
 	}
 
 	public void reachedParkingPositionInd(int nextWorkingStep) {
-		if ((nextWorkingStep==currentStepNumber)&(currentOrder.size()>=nextWorkingStep)){
+		System.out.println("Übertragener Wert"+nextWorkingStep);
+		System.out.println("Sollwert:"+ currentStepNumber);
+		if (nextWorkingStep==21){
+			if(isInWaitingPosition==false){
+				list.remove(0);
+			}
+			if(list.isEmpty()==false){
 			currentOrder=list.getFirstOrder();
 			btManager.transmitProductionOrder(currentOrder);
+			isInWaitingPosition=false;
+			}
+			else{
+				isInWaitingPosition=true;
+				
 		}
+	}
+}
+
+	public void connectBT(String MAC) {
+		btManager.connectWithDevice(MAC);
+	}
+
+
+	@Override
+	public void connectBT(byte[] MAC) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void activeOrderCanceledAction() {
+		// TODO Auto-generated method stub
+		
 	}
 }

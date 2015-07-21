@@ -3,7 +3,6 @@ package de.ees.group1.cs.controller;
 import de.ees.group1.bt.BT_manager;
 import de.ees.group1.com.IWorkStation;
 import de.ees.group1.model.ProductionStep;
-import de.ees.group1.model.WorkStation;
 import de.ees.group1.model.WorkstationType;
 
 public class WorkingStation extends WorkingStationAll implements IWorkStation{
@@ -107,24 +106,16 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 	public void giveCurrentStep(ProductionStep step) {
 		int maxQualityWS=getMaxQualityLevel();
 		currentStep=step;
-		if ((status==1) && (maxQualityWS>=currentStep.getMinQualityLevel()) && (this.type.equals(step.getType()))){
+		if ((status==1) & (maxQualityWS>=currentStep.getMinQualityLevel())&(currentStep.getType()==this.type)){
 			btManager.transmitYes();
-		}
+		} 
 		else{
 			btManager.transmitNo();
 		}
-	
-}
+	}
 
 	//NXT hat Arbeitsposition und wartet auf abarbeitung des aktuellen Auftrags
 	public void giveAcknowledgement(boolean answer) {
 		simulateWork();
-	
 	}
-
-
-	
-	
-
-	
 }

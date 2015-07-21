@@ -25,7 +25,11 @@ public class Order_Telegram extends Telegramm{
 		
 		message = ""+this.getDestination()+""+this.getSource()+""+this.getType();
 		
-		message = message + data.getId() + this.data.size();
+		if(data.getId()>9){
+			message = message + data.getId() + this.data.size();
+		}else{
+			message = message + "0" + data.getId() + this.data.size();
+		}
 		
 		for(int i = 0; i< this.data.size(); i++){
 			

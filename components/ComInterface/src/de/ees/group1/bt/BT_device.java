@@ -159,11 +159,11 @@ public class BT_device /*implements DiscoveryListener*/ {
 			if(length == 4){
 				return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48));
 			}else{
-				return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48)*10+data[4]);
+				return new State_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48)*10+data[4]-48);
 			}
 		}
 		case 4:
-			return new Finished_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[3]-48)*10+data[4]);
+			return new Finished_Telegram(data[0]-48, (data[1]-48)*10+(data[2]-48), (data[4]-48)*10+data[5]-48);
 		default:
 		}
 		

@@ -17,12 +17,10 @@
 		}
 		
 		public void setProductionOrder(ProductionOrder order){
-			int id=order.getId();
-			this.add(id, order);
+			this.add( order);
 		}
 		
 		public ProductionOrder getFirstOrder(){
-			remove();
 			return this.getFirst();
 		}
 	}
