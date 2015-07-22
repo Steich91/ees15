@@ -15,7 +15,7 @@ public interface IComProvider {
 	
 	void register(IWorkStation ws);
 	
-	void connectWithDevice(String mac);
+	boolean connectWithDevice(String mac);
 	
 	void transmitProductionOrder(ProductionOrder order);
 	

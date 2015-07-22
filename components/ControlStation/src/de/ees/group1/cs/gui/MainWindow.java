@@ -1,6 +1,6 @@
 package de.ees.group1.cs.gui;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -12,14 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import net.miginfocom.swing.MigLayout;
-import de.ees.group1.bt.BT_manager;
-import de.ees.group1.cs.controller.ControlStation;
 import de.ees.group1.model.ProductionOrder;
+import de.ees.group1.model.ProductionStep;
 import de.ees.group1.model.WorkstationType;
+import net.miginfocom.swing.MigLayout;
 
 public class MainWindow {
 
@@ -28,40 +28,7 @@ public class MainWindow {
 	private IOrderController orderController;
 	private IWorkstationController workstationController;
 	private IConnectionController connectionController;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		/*ControlStation cs = new ControlStation(this);
-		BT_manager man = cs.getManager();
-		
-		while(true){
-			
-			man.getMessage();
-			
-		}*/
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					ControlStation cs = new ControlStation(window);
-					BT_manager man = cs.getManager();
-					
-					while(true){
-						
-						man.getMessage();
-						
-					}
-					//window.frmControlstation.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});//*/
-	}
+	private ActiveOrderPanel actOrderPanel;
 
 	/**
 	 * Create the application.
@@ -83,8 +50,6 @@ public class MainWindow {
 			public void moveOrderDown(int orderID) {}
 			@Override
 			public void orderUpdatedAction(ProductionOrder tmp) {}
-			@Override
-			public void activeOrderCanceledAction() {}
 		};
 		
 		workstationController = new IWorkstationController() {
@@ -95,7 +60,7 @@ public class MainWindow {
 		};
 		
 		connectionController = new IConnectionController() {
-			@Override public void connectBT(byte[] MAC) {}
+			@Override public boolean connectBT(String MAC) { return false; }
 		};
 		
 		//TODO: just for testing
@@ -126,7 +91,10 @@ public class MainWindow {
 				BTConnectDialog connDlg = new BTConnectDialog(frmControlstation);
 				connDlg.setVisible(true);
 				if(!connDlg.isCancled) {
-					connectionController.connectBT(connDlg.macAddress);
+					if(connectionController.connectBT(connDlg.macAddress))
+						JOptionPane.showMessageDialog(frmControlstation, "Erfolgreich Verbunden!");
+					else
+						JOptionPane.showMessageDialog(frmControlstation, "Konnte nicht mit NXT verbinden!");
 				}
 			}
 		});
@@ -159,7 +127,7 @@ public class MainWindow {
 		});
 		panel.add(ordersPanel, "cell 0 0,grow, span 1 6");
 		
-		JPanel actOrderPanel = new ActiveOrderPanel();
+		actOrderPanel = new ActiveOrderPanel();
 		panel.add(actOrderPanel, "cell 1 0,grow");
 		
 		for(int i = 1; i < 5; i++) {
@@ -230,8 +198,36 @@ public class MainWindow {
 		
 	}
 	
-	public void updateActiveOrder(ProductionOrder order) {
+	public void updateActiveOrder(ProductionOrder activeOrder, int currentStepIndex) {
+		Color color = Color.YELLOW;
+		String state = "Wartet";
+		String id = "-";
+		String currStep = "-";
+		String nextStep = "-";
 		
+		if(activeOrder != null)
+		{
+			color = Color.GREEN;
+			state = "Activ";
+			id = String.valueOf(activeOrder.getId());
+		}
+		
+		if(currentStepIndex >= 0  && currentStepIndex < activeOrder.size()) {
+			ProductionStep step = activeOrder.get(currentStepIndex);
+			currStep = "#" + String.valueOf(currentStepIndex) + "/" + String.valueOf(activeOrder.size()) +
+					": " + step.getType().toString() +
+					" / " + step.getMinQualityLevel() +
+					" / " + step.getWorkTimeSeconds() + "s";
+		}
+		
+		int nextStepIndex = currentStepIndex + 1;
+		
+		if(nextStepIndex >= 0  && nextStepIndex < activeOrder.size()) {
+			ProductionStep step = activeOrder.get(nextStepIndex);
+			currStep = step.getType().toString() + " / " + step.getMinQualityLevel() + " / " + step.getWorkTimeSeconds() + "s";
+		}
+		
+		actOrderPanel.setOrderStatus(color, state, id, currStep, nextStep);
 	}
 	
 	public void updateWorkstationState() {
@@ -289,5 +285,9 @@ public class MainWindow {
 			return tmp;
 		}
 		return order;
+	}
+
+	public void setVisible(boolean b) {
+		frmControlstation.setVisible(b);
 	}
 }

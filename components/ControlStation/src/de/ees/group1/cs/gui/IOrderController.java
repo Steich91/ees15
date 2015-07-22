@@ -16,6 +16,4 @@ public interface IOrderController {
 
 	public void orderUpdatedAction(ProductionOrder tmp);
 
-	public void activeOrderCanceledAction();
-
 }

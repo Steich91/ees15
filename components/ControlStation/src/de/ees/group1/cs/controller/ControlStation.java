@@ -28,6 +28,11 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	
 	public ControlStation(MainWindow mainWindow){
 		this.mainWindow=mainWindow;
+		mainWindow.registerConnectionController(this);
+		mainWindow.registerOrderController(this);
+		mainWindow.registerWorkStationController(workingStation);
+		
+		
 		btManager=new BT_manager();
 		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
@@ -37,7 +42,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
-		btManager.connectWithDevice("00:16:53:05:65:FD");
+		
 		//Test
 		currentOrder = new ProductionOrder(0);
 		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
@@ -74,10 +79,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		workingStation.workstationTypeUpdatedAction(3, WorkstationType.DRILL);
 		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
 		
-		
-		reachedParkingPositionInd(21);
-		//btManager.transmitProductionOrder(currentOrder);
-		//*/
+		mainWindow.updateOrderList(list);
 	}
 	
 	public BT_manager getManager(){
@@ -251,26 +253,12 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			}
 			else{
 				isInWaitingPosition=true;
-				
 		}
 	}
 }
 
-	public void connectBT(String MAC) {
-		btManager.connectWithDevice(MAC);
-	}
-
-
 	@Override
-	public void connectBT(byte[] MAC) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void activeOrderCanceledAction() {
-		// TODO Auto-generated method stub
-		
+	public boolean connectBT(String MAC) {
+		return btManager.connectWithDevice(MAC);
 	}
 }

@@ -35,7 +35,7 @@ public class BTConnectDialog extends JDialog implements ActionListener {
 	private String[] defMAC = {"00","16","53","05","65","fd"};
 	
 	public boolean isCancled = true;
-	public byte[] macAddress;
+	public String macAddress;
 	
 	KeyListener hexByte = new KeyAdapter() {
 		@Override
@@ -113,11 +113,11 @@ public class BTConnectDialog extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "OK") {
-			macAddress = new byte[6];
+			byte[] macBytes = new byte[6];
 			boolean valid = true;
 			for(int i = 0; i < 6; i++) {
 				try {
-					macAddress[i] = (byte)Integer.parseInt(tfList.get(i).getText(), 16);
+					macBytes[i] = (byte)Integer.parseInt(tfList.get(i).getText(), 16);
 					tfList.get(i).setBorder(goodValueBorder);
 				} catch(Exception ex) {
 					tfList.get(i).setBorder(badValueBorder);
@@ -125,6 +125,13 @@ public class BTConnectDialog extends JDialog implements ActionListener {
 				}
 			}
 			if(valid) {
+				macAddress = "";
+				for(int i = 0; i < macBytes.length; i++) {
+					macAddress += String.format("%02X", macBytes[i]);
+					if(i < macBytes.length - 1) {
+						macAddress += ":";
+					}
+				}
 				isCancled = false;
 				dispose();
 			}

@@ -64,15 +64,14 @@ public class ActiveOrderPanel extends JPanel {
 		nextStepTxt = new JTextField("-");
 		nextStepTxt.setEditable(false);
 		add(nextStepTxt, "cell 3 2, grow");
-		
-//		JButton cancelBtn = new JButton("Abbrechen");
-//		cancelBtn.addActionListener(cancelListener);
-//		cancelBtn.setEnabled(false);
-//		add(cancelBtn, "cell 3 0, right");
 	}
 	
-	public void setOrderStatus() {
-		
+	public void setOrderStatus(Color color, String statusText, String id, String curStep, String nextStep) {
+		statusLbl.setBackground(color);
+		statusLbl.setText(statusText);
+		idTxt.setText(id);
+		currentStepTxt.setText(curStep);
+		nextStepTxt.setText(nextStep);
 	}
 
 }

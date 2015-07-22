@@ -3,8 +3,6 @@ package de.ees.group1.bt;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.bluetooth.RemoteDevice;
-
 import de.ees.group1.com.IComProvider;
 import de.ees.group1.com.IControlStation;
 import de.ees.group1.com.IWorkStation;
@@ -17,9 +15,9 @@ import de.ees.group1.model.Telegramm;
 public class BT_manager implements IComProvider{
 	
 	private BT_device localDev = null;
-	private RemoteDevice remoteDev = null;
 	private IControlStation controlStation = null;
 	private ArrayList<IWorkStation> workStation = new ArrayList<IWorkStation>();
+	private boolean connected = false;
 	
 	public BT_manager(){
 		
@@ -27,7 +25,7 @@ public class BT_manager implements IComProvider{
 		
 	}
 	
-	public void connectWithDevice(String mac){
+	public boolean connectWithDevice(String mac){
 		
 		try{
 			
@@ -41,7 +39,7 @@ public class BT_manager implements IComProvider{
 				if(localDev.startService()){
 				
 					System.out.println(" Verbindung hergestellt");
-				
+					connected = true;
 				}
 				
 			}else{
@@ -53,9 +51,10 @@ public class BT_manager implements IComProvider{
 		}catch(IOException BluetoothStateException){
 			
 			System.out.println(BluetoothStateException.getMessage());
+			connected = false;
 			
 		};
-		
+		return connected;
 	}
 	
 	public void disconnect(){
@@ -70,7 +69,7 @@ public class BT_manager implements IComProvider{
 			System.out.println(e.getMessage());
 			
 		}
-		
+		connected = false;
 	}
 	
 	public void register(IControlStation cs){
@@ -88,6 +87,10 @@ public class BT_manager implements IComProvider{
 	public void getMessage(){
 		
 		try{
+			
+			if(!connected)
+				return;
+			
 			Telegramm tele = this.localDev.receiveMessage();
 			int type = tele.getType();
 			if(tele.getDestination() == 0){
