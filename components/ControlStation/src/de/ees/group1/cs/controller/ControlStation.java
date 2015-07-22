@@ -24,6 +24,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	private WorkingStationAll workingStation;
 	private MainWindow mainWindow;
 	private boolean isInWaitingPosition;
+	private WorkingStation currentWorkStation;
 	
 	
 	public ControlStation(MainWindow mainWindow){
@@ -112,16 +113,16 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=22)){
 			switch (status){
 			case 1: case 5: case 9: case 13: case 17:
-				//setWorkStation(1);
+				currentWorkStation=workingStation.getWorkingStaion(1);
 				break;
 			case 2: case 6: case 10: case 14: case 18:
-				//setWorkStation(2);
+				currentWorkStation=workingStation.getWorkingStaion(2);
 				break;
 			case 3: case 7: case 11: case 15: case 19:
-				//setWorkStation(3);
+				currentWorkStation=workingStation.getWorkingStaion(3);
 				break;
 			case 4: case 8: case 12: case 16: case 20:
-				//setWorkStation(4);
+				currentWorkStation=workingStation.getWorkingStaion(4);
 				break;
 			case 21:
 				//neuen Auftrag ansto�en
@@ -134,7 +135,8 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		if ((0<status) & (status<=20)){
 			switch (status){
 			case 1: case 2: case 3: case 4: 
-				//action to "Einfahrt");
+				currentWorkStation.setStatus(1);
+				mainWindow.updateWorkstationState();
 				break;
 			case 5: case 6: case 7: case 8: 
 				//action to "Weiterfahrt";
@@ -143,7 +145,9 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 				//arbeit beginnen;
 				break;
 			case 13: case 14: case 15: case 16: 
-				//Arbeit beendet;
+				currentWorkStation.setStatus(0);
+				mainWindow.updateWorkstationState();
+				currentStepNumber++;
 				break;
 			case 17: case 18: case 19: case 20: 
 				//arbeit konnte nicht durchgef�hrt werden;
@@ -248,8 +252,6 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	}
 
 	public void reachedParkingPositionInd(int nextWorkingStep) {
-		System.out.println("Übertragener Wert"+nextWorkingStep);
-		System.out.println("Sollwert:"+ currentStepNumber);
 		if (nextWorkingStep==21){
 			if(isInWaitingPosition==false){
 				list.remove(0);
