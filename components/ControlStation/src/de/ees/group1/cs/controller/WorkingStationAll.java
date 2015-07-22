@@ -18,13 +18,13 @@ public  class WorkingStationAll  implements IWorkstationController{
 	
 	public void workstationTypeUpdatedAction(int id, WorkstationType type) {
 		workStation[id-1].setType(type);
-		mainWindow.updateWorkstationState();	
+		
 	}
 
 	
 	public void workstationQualityUpdatedAction(int id, int quality) {
 		workStation[id-1].setMaxQualityLevel(quality);
-		mainWindow.updateWorkstationState();
+		
 	}
 	
 	public  WorkingStation getWorkingStaion(int id){

@@ -30,9 +30,6 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 	public ControlStation(MainWindow mainWindow){
 		this.mainWindow=mainWindow;
 		mainWindow.registerConnectionController(this);
-		mainWindow.registerOrderController(this);
-		mainWindow.registerWorkStationController(workingStation);
-
 		btManager=new BT_manager();
 		btManager.register(this);
 		//Erzeugt die vier Arbeitsstationen
@@ -42,7 +39,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		}
 		//Erzeugt OrderList
 		list=new OrderList();
-		
+		btManager.connectWithDevice("00:16:53:05:65:FD");
 		//Test
 		currentOrder = new ProductionOrder(0);
 		currentStep=new ProductionStep(WorkstationType.DRILL, 1,2);
@@ -79,7 +76,10 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 		workingStation.workstationTypeUpdatedAction(3, WorkstationType.DRILL);
 		workingStation.workstationTypeUpdatedAction(4, WorkstationType.LATHE);
 		
-		mainWindow.updateOrderList(list);
+		
+		reachedParkingPositionInd(21);
+		//btManager.transmitProductionOrder(currentOrder);
+		//*/
 	}
 	
 	public BT_manager getManager(){
@@ -136,7 +136,7 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			switch (status){
 			case 1: case 2: case 3: case 4: 
 				currentWorkStation.setStatus(1);
-				mainWindow.updateWorkstationState();
+				mainWindow.updateWorkstationState(1);
 				break;
 			case 5: case 6: case 7: case 8: 
 				//action to "Weiterfahrt";
@@ -146,8 +146,14 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 				break;
 			case 13: case 14: case 15: case 16: 
 				currentWorkStation.setStatus(0);
-				mainWindow.updateWorkstationState();
+				mainWindow.updateWorkstationState(0);
 				currentStepNumber++;
+				if(currentStepNumber<currentOrder.size()){
+				mainWindow.updateActiveOrder(currentOrder, currentStepNumber);
+				}
+				else{
+					mainWindow.updateActiveOrder(null,-1);
+				}
 				break;
 			case 17: case 18: case 19: case 20: 
 				//arbeit konnte nicht durchgef�hrt werden;
@@ -258,17 +264,32 @@ public class ControlStation implements IOrderController, IControlStation, IConne
 			}
 			if(list.isEmpty()==false){
 			currentOrder=list.getFirstOrder();
+			mainWindow.updateActiveOrder(currentOrder, 0);
 			btManager.transmitProductionOrder(currentOrder);
 			isInWaitingPosition=false;
 			}
 			else{
 				isInWaitingPosition=true;
+				
 		}
 	}
 }
 
+	public void connectBT(String MAC) {
+		btManager.connectWithDevice(MAC);
+	}
+
+
 	@Override
-	public boolean connectBT(String MAC) {
-		return btManager.connectWithDevice(MAC);
+	public void connectBT(byte[] MAC) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void activeOrderCanceledAction() {
+		// TODO Auto-generated method stub
+		
 	}
 }
