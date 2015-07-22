@@ -26,7 +26,7 @@ public class WorkingStation extends WorkingStationAll implements IWorkStation{
 		this.btManager.register(this);
 		setId(id);
 		setMaxQualityLevel(1);
-		setStatus(-1);
+		setStatus(1);
 		this.workingStation=workingStation;
 		this.workingStation.setWorkingStation(this);
 	}
