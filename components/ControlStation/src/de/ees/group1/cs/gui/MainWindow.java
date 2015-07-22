@@ -210,21 +210,21 @@ public class MainWindow {
 			color = Color.GREEN;
 			state = "Activ";
 			id = String.valueOf(activeOrder.getId());
-		}
-		
-		if(currentStepIndex >= 0  && currentStepIndex < activeOrder.size()) {
-			ProductionStep step = activeOrder.get(currentStepIndex);
-			currStep = "#" + String.valueOf(currentStepIndex) + "/" + String.valueOf(activeOrder.size()) +
-					": " + step.getType().toString() +
-					" / " + step.getMinQualityLevel() +
-					" / " + step.getWorkTimeSeconds() + "s";
-		}
-		
-		int nextStepIndex = currentStepIndex + 1;
-		
-		if(nextStepIndex >= 0  && nextStepIndex < activeOrder.size()) {
-			ProductionStep step = activeOrder.get(nextStepIndex);
-			currStep = step.getType().toString() + " / " + step.getMinQualityLevel() + " / " + step.getWorkTimeSeconds() + "s";
+			
+			if(currentStepIndex >= 0  && currentStepIndex < activeOrder.size()) {
+				ProductionStep step = activeOrder.get(currentStepIndex);
+				currStep = "#" + String.valueOf(currentStepIndex) + "/" + String.valueOf(activeOrder.size()) +
+						": " + step.getType().toString() +
+						" / " + step.getMinQualityLevel() +
+						" / " + step.getWorkTimeSeconds() + "s";
+			}
+			
+			int nextStepIndex = currentStepIndex + 1;
+			
+			if(nextStepIndex >= 0  && nextStepIndex < activeOrder.size()) {
+				ProductionStep step = activeOrder.get(nextStepIndex);
+				currStep = step.getType().toString() + " / " + step.getMinQualityLevel() + " / " + step.getWorkTimeSeconds() + "s";
+			}
 		}
 		
 		actOrderPanel.setOrderStatus(color, state, id, currStep, nextStep);
